@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+
+  redis:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
+    volumes:
+      - cache:/data
+
+volumes:
+  cache:
+    driver: local
+
+#  postgres:
+#    image: postgres:13.4-buster
+#    shm_size: 256MB  # shared memory size (default 64MB)
+#    restart: unless-stopped
+#    env_file:
+#      - .env
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - /Users/aaron/tmp/pgsql:/var/lib/postgresql/data/
+#    command: >
+#      -c max_connections=200
+#      -c shared_buffers=2GB
+#      -c work_mem=5MB
+#      -c maintenance_work_mem=512MB
+#      -c effective_io_concurrency=2
+#      -c max_worker_processes=4
+#      -c max_parallel_maintenance_workers=2
+#      -c max_parallel_workers_per_gather=2
+#      -c max_parallel_workers=4
+#      -c wal_buffers=16MB
+#      -c max_wal_size=4GB
+#      -c min_wal_size=1GB
+#      -c checkpoint_completion_target=0.9
+#      -c random_page_cost=4.0
+#      -c effective_cache_size=6GB
+#      -c default_statistics_target=100
+#      -c log_autovacuum_min_duration=0
+##      -c datestyle='iso, dmy'
+##      -c lc_messages='en_AU.UTF-8'
+##      -c lc_monetary='en_AU.UTF-8'
+##      -c lc_numeric='en_AU.UTF-8'
+##      -c lc_time='en_AU.UTF-8'
+#
+#
+#volumes:
+#  db-data:
